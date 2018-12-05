@@ -18,9 +18,15 @@ if [ ! -d greengo ]; then
 fi
 cd greengo
 
-count=`cat ~/tmp/count.txt`
+if [ -f ~/tmp/count.txt ]; then
+    count=`cat ~/tmp/count.txt`
+else
+    count=1
+fi
 while [ $count -lt 60 ]; do
     echo "----------------COUNT $count"
+    sed -i -e s/"^  name:.*"/"  name: GreengoGroup_${count}"/ greengo.yaml
+    sed -i -e s/"^  - name: Greengo.*"/"  - name: GreengoGroup_${count}_core_${count}"/ greengo.yaml
     count=$(($count+1));
     greengo create
     vagrant up
