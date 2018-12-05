@@ -1,10 +1,10 @@
 ## This tool is designed to spin up about $10 of AWS IOT greegrass usage
 
-Each Greangrass core costs $0.16/mo. Once a greengrass core device connects to a core  = one month of usage
+Each unique Greangrass core costs $0.16/mo. Once a greengrass core device connects to a core, one month of usage is charged
 
-$10 / $0.16 = 62.5 active cores in a month, the first 3 land in free tier. To be safe we'll create 70 cores and connections
+$10 / $0.16 = 62.5 required cores in a month, the first 3 land in free tier. To be safe we'll create 70 cores and connections
 
-This script will loop 60 times, each time it will:
+This script will loop 70 times, each time it will:
 	1. use greengo to create a new greengrass group, core, policy, lambda etc. 
 	2. use vagrant to spin up an ubuntu VM that emulates a greengrass device
 	3. use greengo to deploy the lambda to the virtual greengrass device
@@ -12,15 +12,15 @@ This script will loop 60 times, each time it will:
 	5. destroy the vagrant vm
 
 # Requirements
-
-* Python2.7, virtualenv and pip
-* virtualbox and vagrant
-* git
-* greengo and boto3 python modules
+* Linux or mac system (loop.sh is a bash script)
+* Python2.7, virtualenv and pip (for greengrass sdk & greengo tool)
+* virtualbox and vagrant (to emulate a greengrass core)
+* git (to pull down this & greengo repos)
+* greengo and boto3 python modules (to build the groups & cores in AWS)
 
 # Setup
 
-	# Install OS requirements
+	# Install OS requirements on Ubuntu
 	sudo apt-get install -y python2.7 python-pip git virtualbox
 
 	# Install vagrant
@@ -38,7 +38,7 @@ This script will loop 60 times, each time it will:
 	export AWS_DEFAULT_REGION=us-east-1
 	./create_role.sh
 
-	# Install python modules	
+	# Install required python modules	
 	virtualenv venv
 	. venv/bin/activate
 	pip install -r requirements.txt
@@ -49,11 +49,11 @@ This script will loop 60 times, each time it will:
 	#if not resuming previous loop:
 	rm ~/tmp/count.txt
 	./loop.sh
-	deactivate
+	deactivate # the virtual environment
 
-# Check the cost (may take 24 hours to accumulate)
+# Check the cost (may take 24 hours to show up)
 
-	# Install cost tool
+	# Install cloudshift's AWS cost tool
 	cd ~/
 	git clone git@github.com:cloudshiftstrategies/aws_cost.git
 	cd aws_cost
