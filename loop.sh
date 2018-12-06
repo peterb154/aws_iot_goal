@@ -4,6 +4,7 @@
 export AWS_DEFAULT_REGION=us-east-1
 
 set -e
+LOOPS=70
 
 # Install the python requirements
 if [ ! -d venv ]; then
@@ -28,7 +29,7 @@ else
 fi
 
 # Main loop
-while [ $count -lt 70 ]; do
+while [ $count -lt $LOOPS ]; do
     echo "----------------COUNT $count"
     # Put a unique group and core name in the config file
     sed -i -e s/"^  name:.*"/"  name: GreengoGroup_${count}"/ greengo.yaml
