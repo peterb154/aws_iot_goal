@@ -4,7 +4,7 @@
 export AWS_DEFAULT_REGION=us-east-1
 
 set -e
-LOOPS=70
+LOOPS=71
 
 # Install the python requirements
 if [ ! -d venv ]; then
